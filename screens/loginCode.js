@@ -12,14 +12,14 @@ import { AsyncStorage } from 'react-native';
 import { Button, Block, Input, Text } from "../components";
 import { theme } from "../constants";
 
-export default class Codes extends Component {
+export default class loginCode extends Component {
   state = {
    code: null,
    errors: [],
    loading: false
   };
 
-  async handleCodes() {
+  async handleLoginCode() {
     const { navigation } = this.props;
     const { code } = this.state;
     const id = await AsyncStorage.getItem('id')
@@ -85,7 +85,7 @@ export default class Codes extends Component {
               onChangeText={number => this.setState({ code: number })}
             />
            
-           <Button gradient  onPress={() => this.handleCodes()}>
+           <Button gradient  onPress={() => this.handleLoginCode()}>
               {loading ? (
                 <ActivityIndicator size="small" color="white" />
               ) : (

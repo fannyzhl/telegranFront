@@ -55,6 +55,8 @@ export default class Mobil extends Component {
             navigation.navigate("Codes");
           }else if (data.status == 401){
             Alert.alert(data.response);
+          }else if (data.status == 500){
+            Alert.alert(data.response);
           }
     }); 
   }

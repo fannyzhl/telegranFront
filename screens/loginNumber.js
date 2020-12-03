@@ -6,39 +6,36 @@ import {
   KeyboardAvoidingView,
   StyleSheet
 } from "react-native";
-import {ip} from "../client/client"
-import { AsyncStorage } from 'react-native';
 
 import { Button, Block, Input, Text } from "../components";
 import { theme } from "../constants";
+import {ip} from "../client/client"
+import { AsyncStorage } from 'react-native';
 
-export default class Codes extends Component {
+export default class loginNumber extends Component {
   state = {
-   code: null,
+   phoneNumber: null,
    errors: [],
    loading: false
   };
 
-  async handleCodes() {
+  async handleLoginNumber() {
     const { navigation } = this.props;
-    const { code } = this.state;
+    const { phoneNumber } = this.state;
     const id = await AsyncStorage.getItem('id')
     const errors = [];
-    // if (!errors.length) {
-    //     navigation.navigate("SignUp");
-    // }
 
     Keyboard.dismiss();
     this.setState({ loading: true });
 
     // check with backend API or with some static data
-    if (!code) errors.push("code");
+    if (!phoneNumber) errors.push("phoneNumber");
    
 
     this.setState({ errors, loading: false });
 
     var json ={
-      code:code,
+      number:phoneNumber,
       id_user:id
 
     }
@@ -51,17 +48,17 @@ export default class Codes extends Component {
               'Content-type': 'application/json'
           }
     }
-    fetch(ip+'/user/verificarNumero', configs)
+    fetch(ip+'/user/guardarNumero', configs)
       .then(res => res.json())
       .then(data => {console.log(data)
           if(data.status == 200){
-            navigation.navigate("Settings");
+            navigation.navigate("Codes");
           }else if (data.status == 401){
             Alert.alert(data.response);
           }else if (data.status == 500){
             Alert.alert(data.response);
           }
-    });
+    }); 
   }
 
   render() {
@@ -70,22 +67,24 @@ export default class Codes extends Component {
     const hasErrors = key => (errors.includes(key) ? styles.hasErrors : null);
 
     return (
-      <KeyboardAvoidingView style={styles.code} behavior="padding">
+      <KeyboardAvoidingView style={styles.mobil} behavior="padding">
         <Block padding={[0, theme.sizes.base * 6]}>
           <Text h1 bold>
-            Code
+            PHONE NUMBER
           </Text>
           <Block middle>
             <Input
-              code
-              label="code"
-              error={hasErrors("code")}
-              style={[styles.input, hasErrors("code")]}
+              phoneNumber
+              label="phoneNumber"
+              error={hasErrors("phoneNumber")}
+              style={[styles.input, hasErrors("phoneNumber")]}
               defaultValue={this.state.phoneNumber}
-              onChangeText={number => this.setState({ code: number })}
+              id="number"
+              onClick="code(number)"
+              onChangeText={number => this.setState({ phoneNumber: number })}
             />
            
-           <Button gradient  onPress={() => this.handleCodes()}>
+            <Button gradient  onPress={() => this.handleLoginNumber()}>
               {loading ? (
                 <ActivityIndicator size="small" color="white" />
               ) : (
@@ -103,7 +102,7 @@ export default class Codes extends Component {
 }
 
 const styles = StyleSheet.create({
-  code: {
+  mobil: {
     flex: 1,
     justifyContent: "center"
   },

@@ -61,6 +61,8 @@ export default class SignUp extends Component {
             AsyncStorage.setItem('id', JSON.stringify(data.user))
           }else if(data.status == 401){
             Alert.alert(data.response);
+          }else if (data.status == 500){
+            Alert.alert(data.response);
           }
     });
 
