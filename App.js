@@ -1,9 +1,7 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-
 import { AppLoading } from "expo";
 import { Asset } from "expo-asset";
-
 import Navigation from "./navigation";
 import { Block } from "./components";
 

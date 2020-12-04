@@ -2,13 +2,8 @@ import React from "react";
 import { Image } from "react-native";
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
-
 import Welcome from "../screens/Welcome";
 import SignUp from "../screens/SignUp";
-import Forgot from "../screens/Forgot";
-import Explore from "../screens/Explore";
-import Browse from "../screens/Browse";
-import Product from "../screens/Product";
 import Settings from "../screens/Settings";
 import Mobil from "../screens/Mobil";
 import Codes from "../screens/Codes";
@@ -25,10 +20,6 @@ const screens = createStackNavigator(
     SignUp,
     loginNumber,
     loginCode,
-    Forgot,
-    Explore,
-    Browse,
-    Product,
     Settings
   },
   {

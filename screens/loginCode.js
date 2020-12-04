@@ -51,7 +51,7 @@ export default class loginCode extends Component {
               'Content-type': 'application/json'
           }
     }
-    fetch(ip+'/user/verificarNumero', configs)
+    fetch(ip+'/user/iniciar', configs)
       .then(res => res.json())
       .then(data => {console.log(data)
           if(data.status == 200){

@@ -57,7 +57,6 @@ export default class SignUp extends Component {
       .then(data => {console.log(data)
           if(data.status == 200){
             navigation.navigate("Mobil");
-            console.log(data.user);
             AsyncStorage.setItem('id', JSON.stringify(data.user))
           }else if(data.status == 401){
             Alert.alert(data.response);

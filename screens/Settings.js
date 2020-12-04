@@ -1,16 +1,14 @@
-import React, { Component } from "react";
+import React, { useContext, Component } from "react";
 import { Image, StyleSheet, ScrollView, TextInput } from "react-native";
 import Slider from "react-native-slider";
-
 import { Divider, Button, Block, Text, Switch } from "../components";
 import { theme, mocks } from "../constants";
+import {ip} from "../client/client"
+import { AsyncStorage } from 'react-native';
 
 class Settings extends Component {
   state = {
-    budget: 850,
-    monthly: 1700,
-    notifications: true,
-    newsletter: false,
+    username,
     editing: null,
     profile: {}
   };
@@ -26,6 +24,30 @@ class Settings extends Component {
     this.setState({ profile });
   }
 
+  /* handleRead(){
+    const id = await AsyncStorage.getItem('id')
+    let configs = {
+      method: 'GET',
+      body: JSON.stringify(json),
+      withCredentials: true,
+      credentials: 'include',
+      headers: {
+          'Content-type': 'application/json'
+      }
+    }
+    fetch(ip+'/user/leerPerfil/:id='+id, configs)
+      .then(res => res.json())
+      .then(data => {console.log(data)
+          if(data.status == 200){
+            console.log("aa");
+          }else if (data.status == 401){
+            Alert.alert(data.response);
+          }else if (data.status == 500){
+            Alert.alert(data.response);
+          }
+    });
+  } */
+  
   toggleEdit(name) {
     const { editing } = this.state;
     this.setState({ editing: !editing ? name : null });
@@ -47,13 +69,15 @@ class Settings extends Component {
   }
 
   render() {
+    
     const { profile, editing } = this.state;
 
     return (
+      
       <Block>
         <Block flex={false} row center space="between" style={styles.header}>
           <Text h1 bold>
-            Settings
+            PROFILE
           </Text>
           <Button>
             <Image source={profile.avatar} style={styles.avatar} />
@@ -103,77 +127,16 @@ class Settings extends Component {
           </Block>
 
           <Divider margin={[theme.sizes.base, theme.sizes.base * 2]} />
+          <Button
+          rounded
+          block
+          onPress={() => signout()}
+          style={{ marginHorizontal: 20 }}
+          light
+        >
+          <Text style={{ color: "white" }}>Cerrar Sesion</Text>
+        </Button>
 
-          <Block style={styles.sliders}>
-            <Block margin={[10, 0]}>
-              <Text gray2 style={{ marginBottom: 10 }}>
-                Budget
-              </Text>
-              <Slider
-                minimumValue={0}
-                maximumValue={1000}
-                style={{ height: 19 }}
-                thumbStyle={styles.thumb}
-                trackStyle={{ height: 6, borderRadius: 6 }}
-                minimumTrackTintColor={theme.colors.secondary}
-                maximumTrackTintColor="rgba(157, 163, 180, 0.10)"
-                value={this.state.budget}
-                onValueChange={value => this.setState({ budget: value })}
-              />
-              <Text caption gray right>
-                $1,000
-              </Text>
-            </Block>
-            <Block margin={[10, 0]}>
-              <Text gray2 style={{ marginBottom: 10 }}>
-                Monthly Cap
-              </Text>
-              <Slider
-                minimumValue={0}
-                maximumValue={5000}
-                style={{ height: 19 }}
-                thumbStyle={styles.thumb}
-                trackStyle={{ height: 6, borderRadius: 6 }}
-                minimumTrackTintColor={theme.colors.secondary}
-                maximumTrackTintColor="rgba(157, 163, 180, 0.10)"
-                value={this.state.monthly}
-                onValueChange={value => this.setState({ monthly: value })}
-              />
-              <Text caption gray right>
-                $5,000
-              </Text>
-            </Block>
-          </Block>
-
-          <Divider />
-
-          <Block style={styles.toggles}>
-            <Block
-              row
-              center
-              space="between"
-              style={{ marginBottom: theme.sizes.base * 2 }}
-            >
-              <Text gray2>Notifications</Text>
-              <Switch
-                value={this.state.notifications}
-                onValueChange={value => this.setState({ notifications: value })}
-              />
-            </Block>
-
-            <Block
-              row
-              center
-              space="between"
-              style={{ marginBottom: theme.sizes.base * 2 }}
-            >
-              <Text gray2>Newsletter</Text>
-              <Switch
-                value={this.state.newsletter}
-                onValueChange={value => this.setState({ newsletter: value })}
-              />
-            </Block>
-          </Block>
         </ScrollView>
       </Block>
     );

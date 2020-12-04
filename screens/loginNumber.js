@@ -11,7 +11,6 @@ import { Button, Block, Input, Text } from "../components";
 import { theme } from "../constants";
 import {ip} from "../client/client"
 import { AsyncStorage } from 'react-native';
-
 export default class loginNumber extends Component {
   state = {
    phoneNumber: null,
@@ -19,10 +18,9 @@ export default class loginNumber extends Component {
    loading: false
   };
 
-  async handleLoginNumber() {
+  handleLoginNumber() {
     const { navigation } = this.props;
     const { phoneNumber } = this.state;
-    const id = await AsyncStorage.getItem('id')
     const errors = [];
 
     Keyboard.dismiss();
@@ -35,8 +33,7 @@ export default class loginNumber extends Component {
     this.setState({ errors, loading: false });
 
     var json ={
-      number:phoneNumber,
-      id_user:id
+      number:phoneNumber
 
     }
     let configs = {
@@ -48,11 +45,12 @@ export default class loginNumber extends Component {
               'Content-type': 'application/json'
           }
     }
-    fetch(ip+'/user/guardarNumero', configs)
+    fetch(ip+'/user/enviarCodigo', configs)
       .then(res => res.json())
       .then(data => {console.log(data)
           if(data.status == 200){
-            navigation.navigate("Codes");
+            AsyncStorage.setItem('id', JSON.stringify(data.user))
+            navigation.navigate("loginCode");
           }else if (data.status == 401){
             Alert.alert(data.response);
           }else if (data.status == 500){
