@@ -6,9 +6,12 @@ import { theme, mocks } from "../constants";
 import {ip} from "../client/client"
 import { AsyncStorage } from 'react-native';
 
+
 class Settings extends Component {
+  /* static navigationOptions = {
+    header:null
+  } */
   state = {
-    username,
     editing: null,
     profile: {}
   };
@@ -69,7 +72,7 @@ class Settings extends Component {
   }
 
   render() {
-    
+    const { navigation } = this.props;
     const { profile, editing } = this.state;
 
     return (
@@ -127,15 +130,14 @@ class Settings extends Component {
           </Block>
 
           <Divider margin={[theme.sizes.base, theme.sizes.base * 2]} />
-          <Button
-          rounded
-          block
-          onPress={() => signout()}
-          style={{ marginHorizontal: 20 }}
-          light
-        >
-          <Text style={{ color: "white" }}>Cerrar Sesion</Text>
-        </Button>
+    
+          <Block middle flex={0.5} margin={[0, theme.sizes.padding * 2]}>
+          <Button gradient onPress={() => navigation.navigate("Welcome")}>
+            <Text center semibold white>
+            Logout
+            </Text>
+          </Button>
+          </Block>
 
         </ScrollView>
       </Block>
