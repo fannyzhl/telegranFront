@@ -6,7 +6,6 @@ import {
   KeyboardAvoidingView,
   StyleSheet
 } from "react-native";
-
 import { Button, Block, Input, Text } from "../components";
 import { theme } from "../constants";
 import {ip} from "../client/client"

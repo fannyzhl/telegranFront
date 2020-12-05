@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import {ip} from "../client/client"
 import { AsyncStorage } from 'react-native';
-
 import { Button, Block, Input, Text } from "../components";
 import { theme } from "../constants";
 

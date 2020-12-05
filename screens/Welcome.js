@@ -8,7 +8,6 @@ import {
   StyleSheet,
   ScrollView
 } from "react-native";
-
 import { Button, Block, Text } from "../components";
 import { theme } from "../constants";
 
