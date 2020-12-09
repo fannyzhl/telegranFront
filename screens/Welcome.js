@@ -239,7 +239,7 @@ class Welcome extends Component {
           {this.renderSteps()}
         </Block>
         <Block middle flex={0.5} margin={[0, theme.sizes.padding * 2]}>
-          <Button gradient onPress={() => navigation.navigate("chat")}>
+          <Button gradient onPress={() => navigation.navigate("Login")}>
             <Text center semibold white>
             Login
             </Text>

@@ -13,7 +13,7 @@ let guid, messagelist, myUserID, username, avatar;
 
 
 
-export default class GroupChatScreen extends Component {
+export default class group extends Component {
     messagesRequest = null;
 
     constructor() {

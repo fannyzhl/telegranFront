@@ -31,7 +31,7 @@ const theme = {
     }
 };
 
-export class HomeScreen extends Component {
+export default  class home extends Component {
     static navigationOptions = {
         header: null,
     }
