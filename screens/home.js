@@ -1,19 +1,8 @@
-/* eslint-disable space-infix-ops */
-/* eslint-disable no-undef */
-/* eslint-disable no-return-assign */
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable jsx-quotes */
-/* eslint-disable keyword-spacing */
-/* eslint-disable eqeqeq */
-/* eslint-disable no-trailing-spaces */
-/* eslint-disable quotes */
-/* eslint-disable comma-dangle */
-/* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import { View, FlatList, StyleSheet, Image } from 'react-native';
 import { CometChat } from '@cometchat-pro/react-native-chat';
 import { TouchableRipple, Text, BottomNavigation } from 'react-native-paper';
-import NavigationService from './NavigationService';
+import NavigationService from '../navigation/NavigationService';
 import { DefaultTheme } from 'react-native-paper';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { MenuProvider,MenuOptions,MenuOption,MenuTrigger } from 'react-native-popup-menu';
@@ -275,7 +264,7 @@ class Contacts extends Component {
                     <Text style={styles.activityTitle}> Contacts </Text>
                     <MenuProvider>
                         <MenuTrigger style={{ marginEnd: 20}} >
-                            <Image source={require('./assets/images/menu_icon.png')} />
+                            <Image source={require('../assets/images/menu_icon.png')} />
                         </MenuTrigger>
                         <MenuOptions>
                             <MenuOption onSelect={this.logout} text='Logout' />
@@ -459,7 +448,7 @@ class Groups extends Component {
                 <Text style={styles.activityTitle}> Groups </Text>
                     <MenuProvider>
                         <MenuTrigger style={{ marginEnd: 20}} >
-                            <Image source={require('./assets/images/menu_icon.png')} />
+                            <Image source={require('../assets/images/menu_icon.png')} />
                         </MenuTrigger>
                         <MenuOptions>
                             <MenuOption onSelect={this.logout} text='Logout' />

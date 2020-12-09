@@ -445,12 +445,12 @@ export default class group extends Component {
                     <TouchableOpacity style={styles.roundedbackgroud} onPress={this.showActionSheet}>
                         <Image 
                             style={{height: 30, width: 30, alignSelf: 'center'}}
-                            source={require('./assets/images/attach_media_icon.png')}
+                            source={require('../assets/images/attach_media_icon.png')}
                         />
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.roundedbackgroud} onPress={ this.sendMsg } >
                         <Image style={[{height: 30},{width: 30},{alignSelf:'center'}]}
-                        source={require('./assets/images/send_icon.png')}
+                        source={require('../assets/images/send_icon.png')}
                         />
                     </TouchableOpacity>
                     <ActionSheet
