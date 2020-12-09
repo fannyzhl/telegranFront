@@ -9,6 +9,8 @@ import Mobil from "../screens/Mobil";
 import Codes from "../screens/Codes";
 import loginCode from "../screens/loginCode";
 import loginNumber from "../screens/loginNumber";
+import chat from '../screens/chat'
+
 
 import { theme } from "../constants";
 
@@ -20,7 +22,9 @@ const screens = createStackNavigator(
     SignUp,
     loginNumber,
     loginCode,
-    Settings
+    Settings,
+    chat
+   
   },
   {
     defaultNavigationOptions: {

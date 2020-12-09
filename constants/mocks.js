@@ -1,6 +1,6 @@
 const profile = {
   username: "username",
-  location: "Europe",
+  status: "busy",
   email: "contact@react-ui-kit.com",
   avatar: require("../assets/images/avatar.png"),
   budget: 1000,
