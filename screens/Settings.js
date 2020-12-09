@@ -1,4 +1,4 @@
-import React, { useContext, Component } from "react";
+import React, { useContext, Component, useEffect } from "react";
 import { Image, StyleSheet, ScrollView, TextInput } from "react-native";
 import Slider from "react-native-slider";
 import { Divider, Button, Block, Text, Switch } from "../components";
@@ -18,6 +18,8 @@ class Settings extends Component {
 
   componentDidMount() {
     this.setState({ profile: this.props.profile });
+    this.handleRead();
+
   }
 
   handleEdit(name, text) {
@@ -26,19 +28,22 @@ class Settings extends Component {
 
     this.setState({ profile });
   }
-
-  /* handleRead(){
-    const id = await AsyncStorage.getItem('id')
+  
+  
+  async handleRead(){
+    const token = await AsyncStorage.getItem('token');
+    const id = await AsyncStorage.getItem('id');
+    console.log(token);
     let configs = {
       method: 'GET',
-      body: JSON.stringify(json),
       withCredentials: true,
       credentials: 'include',
       headers: {
-          'Content-type': 'application/json'
+          'Content-type': 'application/json',
+          "authorization": 'Bearer '+token
       }
     }
-    fetch(ip+'/user/leerPerfil/:id='+id, configs)
+    fetch(ip+'user/leerPerfil/'+id, configs)
       .then(res => res.json())
       .then(data => {console.log(data)
           if(data.status == 200){
@@ -49,7 +54,7 @@ class Settings extends Component {
             Alert.alert(data.response);
           }
     });
-  } */
+  } 
   
   toggleEdit(name) {
     const { editing } = this.state;

@@ -54,6 +54,7 @@ export default class loginCode extends Component {
       .then(res => res.json())
       .then(data => {console.log(data)
           if(data.status == 200){
+            AsyncStorage.setItem('token', JSON.stringify(data.token))
             navigation.navigate("Settings");
           }else if (data.status == 401){
             Alert.alert(data.response);
