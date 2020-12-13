@@ -1,25 +1,28 @@
-import React, { useContext, Component, useEffect } from "react";
-import { Image, StyleSheet, ScrollView, TextInput, Alert } from "react-native";
-import Slider from "react-native-slider";
-import { Divider, Button, Block, Text, Switch, Input } from "../components";
-import { theme, mocks } from "../constants";
+import React, { Component} from "react";
 import {ip} from "../client/client"
 import { AsyncStorage } from 'react-native';
+import { Container, Header, Content, List, ListItem, Text, Left, Body, Right, Button, Icon, Title, Picker } from 'native-base';
+import {Modal, View, StyleSheet} from 'react-native';
 
 
-class Settings extends Component {
+export default class Home extends Component {
   /* static navigationOptions = {
     header:null
   } */
   state = {
-      arrayList:[]
+      arrayList:[],
+      modalVisibility: false
   };
 
   componentDidMount() {
     this.handleRead();
 
   }
-  
+  async list(id){
+    AsyncStorage.setItem('id_group', JSON.stringify(id))
+    const { navigation } = this.props;
+    navigation.navigate("Chat");
+  }
   async handleRead(){
     const token = await AsyncStorage.getItem('token');
     const id = await AsyncStorage.getItem('id');
@@ -36,14 +39,11 @@ class Settings extends Component {
     }
     fetch(ip+'/group/leerGrupos/'+id, configs)
       .then(res => res.json())
-      .then(data => {console.log(data)
+      .then(data => {//console.log(data)
           if(data.status == 200){
-            const user = data.data[0];
-            // console.log(user);
-            // this.setState({ name: user.name })
-            // this.setState({ lastname: user.last_name })
-            // this.setState({ username: user.username })
-            // this.setState({ phone: user.number })
+            const group = data.data;
+            console.log(group);
+            this.setState({ arrayList: group })
           }else if (data.status == 401){
             Alert.alert(data.response);
           }else if (data.status == 500){
@@ -52,66 +52,86 @@ class Settings extends Component {
     });
   } 
 
+  ShowModalFunction() {
+    this.setState({ modalVisibility: true });
+  }
+
   render() {
     const { navigation } = this.props;
     const { profile, editing } = this.state;
 
     return (
       
-      <Block>
-        <Block flex={false} row center space="between" style={styles.header}>
-          <Text h1 bold>
-            Home
-          </Text>
-        </Block>
-
-        
-      </Block>
+      <Container>
+        <Header>
+          <Left>
+            <Button transparent >
+              <Icon name='menu' />
+            </Button>
+          </Left>
+          <Body>
+            <Title>Chats List</Title>
+          </Body>
+          <Right>
+            <Button transparent>
+            {/* navigation.navigate("Group") */}
+              <Icon name='add' onPress={() => this.ShowModalFunction() }/>
+            </Button>
+          </Right>
+        </Header>
+        <Content>
+          <List>
+            {this.state.arrayList.map(item => (
+              <ListItem onPress={()=>this.list(item.id_group)}>
+                <Text>
+                  {item.name}
+                </Text>
+              </ListItem>
+            ))}
+          </List>
+        </Content>
+        <Modal
+        transparent={true}
+        animationType={"slide"}
+        visible={this.state.modalVisibility}
+        onRequestClose={() => { this.ShowModalFunction(!this.state.modalVisibility) }} >
+            <View style={{ flex:1, justifyContent: 'center', alignItems: 'center' }}>
+                <View style={styles.ModalInsideView}>
+                  <Text style={{color:'black',fontSize:14,fontWeight:'700'}}>Channel, Group, Chat</Text>
+                    <Picker
+                    mode="dropdown"
+                    iosHeader="Select"
+                    iosIcon={<Icon name="arrow-down" />}
+                    style={{ width: undefined }}
+                    selectedValue={this.state.selected}
+                    onValueChange={this.onValueChange.bind(this)}
+                    >
+                    <Picker.Item label="Chat" value="key0" />
+                    <Picker.Item label="Group" value="key1" />
+                    <Picker.Item label="Channel" value="key2" />
+                  </Picker>
+                    
+                </View>
+            </View>
+        </Modal>
+      </Container>
+      
     );
   }
 }
 
-Settings.defaultProps = {
-  profile: mocks.profile
-};
-
-export default Settings;
-
-const styles = StyleSheet.create({
-  header: {
-    paddingHorizontal: theme.sizes.base * 2
-  },
-  avatar: {
-    height: theme.sizes.base * 2.2,
-    width: theme.sizes.base * 2.2
-  },
-  inputs: {
-    marginTop: theme.sizes.base * 0.7,
-    paddingHorizontal: theme.sizes.base * 2
-  },
-  input2: {
-    borderRadius: 0,
-    borderWidth: 0,
-    borderBottomColor: theme.colors.gray2,
-    borderBottomWidth: StyleSheet.hairlineWidth
-  },
-  inputRow: {
-    alignItems: "flex-end"
-  },
-  sliders: {
-    marginTop: theme.sizes.base * 0.7,
-    paddingHorizontal: theme.sizes.base * 2
-  },
-  thumb: {
-    width: theme.sizes.base,
-    height: theme.sizes.base,
-    borderRadius: theme.sizes.base,
-    borderColor: "white",
-    borderWidth: 3,
-    backgroundColor: theme.colors.secondary
-  },
-  toggles: {
-    paddingHorizontal: theme.sizes.base * 2
+const styles = StyleSheet.create({        
+  ModalInsideView:{
+    justifyContent: 'center',
+    alignItems: 'center', 
+    backgroundColor : "#E5E2E2", 
+    height: 245 ,
+    width: '90%',
+    borderRadius:10,
+    borderWidth: 1,
+    borderColor: '#fff'
+   
   }
-});
+})
+
 
