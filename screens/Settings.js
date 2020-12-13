@@ -21,14 +21,6 @@ class Settings extends Component {
     this.handleRead();
 
   }
-
-  handleEdit(name, text) {
-    const { profile } = this.state;
-    profile[name] = text;
-
-    this.setState({ profile });
-  }
-  
   
   async handleRead(){
     const token = await AsyncStorage.getItem('token');
@@ -103,26 +95,6 @@ class Settings extends Component {
     }); 
   }
   
-  toggleEdit(name) {
-    const { editing } = this.state;
-    this.setState({ editing: !editing ? name : null });
-  }
-
-  renderEdit(name) {
-    const { profile, editing } = this.state;
-
-    if (editing === name) {
-      return (
-        <TextInput
-          defaultValue={profile[name]}
-          onChangeText={text => this.handleEdit([name], text)}
-        />
-      );
-    }
-
-    return <Text bold>{profile[name]}</Text>;
-  }
-
   render() {
     const { navigation } = this.props;
     const { profile, editing } = this.state;
