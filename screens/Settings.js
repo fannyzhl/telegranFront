@@ -1,7 +1,7 @@
 import React, { useContext, Component, useEffect } from "react";
-import { Image, StyleSheet, ScrollView, TextInput } from "react-native";
+import { Image, StyleSheet, ScrollView, TextInput, Alert } from "react-native";
 import Slider from "react-native-slider";
-import { Divider, Button, Block, Text, Switch } from "../components";
+import { Divider, Button, Block, Text, Switch, Input } from "../components";
 import { theme, mocks } from "../constants";
 import {ip} from "../client/client"
 import { AsyncStorage } from 'react-native';
@@ -33,21 +33,27 @@ class Settings extends Component {
   async handleRead(){
     const token = await AsyncStorage.getItem('token');
     const id = await AsyncStorage.getItem('id');
-    console.log(token);
+    const arrayToken= token.split('"', 2)
+    const auto= 'Bearer '+arrayToken[1];
+    console.log(auto)
     let configs = {
       method: 'GET',
       withCredentials: true,
       credentials: 'include',
       headers: {
-          'Content-type': 'application/json',
-          "authorization": 'Bearer '+token
+          "Authorization": auto
       }
     }
-    fetch(ip+'user/leerPerfil/'+id, configs)
+    fetch(ip+'/profile/leerPerfil/'+id, configs)
       .then(res => res.json())
       .then(data => {console.log(data)
           if(data.status == 200){
-            console.log("aa");
+            const user = data.data[0];
+            console.log(user);
+            this.setState({ name: user.name })
+            this.setState({ lastname: user.last_name })
+            this.setState({ username: user.username })
+            this.setState({ phone: user.number })
           }else if (data.status == 401){
             Alert.alert(data.response);
           }else if (data.status == 500){
@@ -55,6 +61,47 @@ class Settings extends Component {
           }
     });
   } 
+
+  editUser() {
+    //const { navigation } = this.props;
+    const { phoneNumber } = this.state;
+    const errors = [];
+
+    Keyboard.dismiss();
+    this.setState({ loading: true });
+
+    // check with backend API or with some static data
+    if (!phoneNumber) errors.push("phoneNumber");
+   
+
+    this.setState({ errors, loading: false });
+
+    var json ={
+      number:phoneNumber
+
+    }
+    let configs = {
+          method: 'POST',
+          body: JSON.stringify(json),
+          withCredentials: true,
+          credentials: 'include',
+          headers: {
+              'Content-type': 'application/json'
+          }
+    }
+    fetch(ip+'/user/enviarCodigo', configs)
+      .then(res => res.json())
+      .then(data => {console.log(data)
+          if(data.status == 200){
+            AsyncStorage.setItem('id', JSON.stringify(data.user))
+            navigation.navigate("loginCode");
+          }else if (data.status == 401){
+            Alert.alert(data.response);
+          }else if (data.status == 500){
+            Alert.alert(data.response);
+          }
+    }); 
+  }
   
   toggleEdit(name) {
     const { editing } = this.state;
@@ -95,53 +142,60 @@ class Settings extends Component {
         <ScrollView showsVerticalScrollIndicator={false}>
           <Block style={styles.inputs}>
             <Block row space="between" margin={[10, 0]} style={styles.inputRow}>
-              <Block>
-                <Text gray2 style={{ marginBottom: 10 }}>
-                  Username
-                </Text>
-                {this.renderEdit("username")}
-              </Block>
-              <Text
-                medium
-                secondary
-                onPress={() => this.toggleEdit("username")}
-              >
-                {editing === "username" ? "Save" : "Edit"}
-              </Text>
+              <Input
+                name
+                label="Name"
+                style={[styles.input2]}
+                defaultValue={this.state.name}
+                id="name"
+                onChangeText={names => this.setState({ name: names })}
+              />
             </Block>
             <Block row space="between" margin={[10, 0]} style={styles.inputRow}>
-              <Block>
-                <Text gray2 style={{ marginBottom: 10 }}>
-                  Location
-                </Text>
-                {this.renderEdit("location")}
-              </Block>
-              <Text
-                medium
-                secondary
-                onPress={() => this.toggleEdit("location")}
-              >
-                {editing === "location" ? "Save" : "Edit"}
-              </Text>
+              <Input
+                lastname
+                label="Lastname"
+                style={[styles.input2]}
+                defaultValue={this.state.lastname}
+                id="lastname"
+                onChangeText={lastnames => this.setState({ lastname: lastnames })}
+              />
             </Block>
             <Block row space="between" margin={[10, 0]} style={styles.inputRow}>
-              <Block>
-                <Text gray2 style={{ marginBottom: 10 }}>
-                  E-mail
-                </Text>
-                <Text bold>{profile.email}</Text>
-              </Block>
+              <Input
+                username
+                label="Username"
+                style={[styles.input2]}
+                defaultValue={this.state.username}
+                id="username"
+                onChangeText={usernames => this.setState({ username: usernames })}
+              />
+            </Block>
+            <Block row space="between" margin={[10, 0]} style={styles.inputRow}>
+              <Input
+                phone
+                label="Phone"
+                style={[styles.input2]}
+                defaultValue={this.state.phone}
+                id="username"
+                onChangeText={number => this.setState({ phone: number })}
+              />
             </Block>
           </Block>
 
           <Divider margin={[theme.sizes.base, theme.sizes.base * 2]} />
     
           <Block middle flex={0.5} margin={[0, theme.sizes.padding * 2]}>
-          <Button gradient onPress={() => navigation.navigate("Welcome")}>
-            <Text center semibold white>
-            Logout
-            </Text>
-          </Button>
+            <Button gradient onPress={() => navigation.navigate("Welcome")}>
+              <Text center semibold white>
+                Edit
+              </Text>
+            </Button>
+            <Button gradient onPress={() => navigation.navigate("Welcome")}>
+              <Text center semibold white>
+              Logout
+              </Text>
+            </Button>
           </Block>
 
         </ScrollView>
@@ -168,6 +222,12 @@ const styles = StyleSheet.create({
     marginTop: theme.sizes.base * 0.7,
     paddingHorizontal: theme.sizes.base * 2
   },
+  input2: {
+    borderRadius: 0,
+    borderWidth: 0,
+    borderBottomColor: theme.colors.gray2,
+    borderBottomWidth: StyleSheet.hairlineWidth
+  },
   inputRow: {
     alignItems: "flex-end"
   },
@@ -187,3 +247,4 @@ const styles = StyleSheet.create({
     paddingHorizontal: theme.sizes.base * 2
   }
 });
+
