@@ -5,7 +5,6 @@ import { Container, Body, Content, Header, Left, Right, Icon, Title, Input, Item
 import io from 'socket.io-client';
 const socket = io();
 
-
 export default class Chat extends Component {
     
     state = {
