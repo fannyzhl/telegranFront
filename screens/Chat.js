@@ -3,7 +3,13 @@ import React, {Component , useCallback,}from 'react';
 import { AppRegistry, View, StatusBar } from "react-native";
 import { Container, Body, Content, Header, Left, Right, Icon, Title, Input, Item, Label, Button, Text } from "native-base";
 import io from 'socket.io-client';
-const socket = io();
+import {ip} from "../client/client"
+var socket = io.connect(ip, { 
+  'forceNew': true 
+}); 
+socket.on('messages', function(data) { 
+  console.log(data);
+});
 
 export default class Chat extends Component {
     

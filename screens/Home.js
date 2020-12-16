@@ -91,7 +91,7 @@ export default class Home extends Component {
           </List>
         </Content>
         <Modal
-        transparent={false}
+        transparent={true}
         animationType={"slide"}
         visible={this.state.modalVisibility}
         onRequestClose={() => { this.ShowModalFunction(!this.state.modalVisibility) }} >
@@ -135,5 +135,3 @@ const styles = StyleSheet.create({
    
   }
 })
-
-
