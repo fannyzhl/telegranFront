@@ -97,7 +97,7 @@ export default class Home extends Component {
         onRequestClose={() => { this.ShowModalFunction(!this.state.modalVisibility) }} >
             <View style={{ flex:1, justifyContent: 'center', alignItems: 'center' }}>
                 <View style={styles.ModalInsideView}>
-                  <Text style={{color:'black',fontSize:14,fontWeight:'700'}}>Channel, Group, Chat</Text>
+                  <Text style={{color:'black',fontSize:14,fontWeight:'700'}}>Channel, Group</Text>
                     <Picker
                     mode="dropdown"
                     iosHeader="Select"
@@ -106,9 +106,8 @@ export default class Home extends Component {
                     selectedValue={this.state.selected}
                     onValueChange={() => console.log('hi')}
                     >
-                    <Picker.Item label="Chat" value="key0" />
+                    <Picker.Item label="Channel" value="key0" />
                     <Picker.Item label="Group" value="key1" />
-                    <Picker.Item label="Channel" value="key2" />
                   </Picker>
                     
                 </View>
