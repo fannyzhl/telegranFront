@@ -102,9 +102,9 @@ export default class Home extends Component {
                     mode="dropdown"
                     iosHeader="Select"
                     iosIcon={<Icon name="arrow-down" />}
-                    style={{ width: undefined }}
+                    style={{ width: '100%' }}
                     selectedValue={this.state.selected}
-                    onValueChange={this.onValueChange.bind(this)}
+                    onValueChange={() => console.log('hi')}
                     >
                     <Picker.Item label="Chat" value="key0" />
                     <Picker.Item label="Group" value="key1" />
