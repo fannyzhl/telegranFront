@@ -1,7 +1,7 @@
 import React, {Component , useCallback,}from 'react';
 //import { View, KeyboardAvoidingView, TextInput, StyleSheet, Text, Platform, TouchableWithoutFeedback, Button, Keyboard  } from 'react-native';
 import { AppRegistry, View, StatusBar } from "react-native";
-import { Container, Body, Content, Header, Left, Right, Icon, Title, Input, Item, Label, Button, Text } from "native-base";
+import { Container, Body, Content, Header, Left, Right, Icon, Title, Input, Item, Label, Button, Text, CardItem, Card } from "native-base";
 import io from 'socket.io-client';
 import {ip} from "../client/client"
 var socket = io.connect(ip, { 
@@ -79,6 +79,15 @@ export default class Chat extends Component {
                 <Right />
                 </Header>
                 <Content padder>
+                <Card>
+                        <CardItem>
+                            <Text>
+                                NativeBase is a free and open source framework that enables
+                                developers to build high-quality mobile apps using React Native
+                                iOS and Android apps with a fusion of ES6.
+                            </Text>
+                        </CardItem>
+                    </Card>
                 <Item floatingLabel style={{ marginTop: 300 }}>
                     <Input 
                     sms

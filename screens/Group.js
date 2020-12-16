@@ -1,7 +1,7 @@
 import React, { Component} from "react";
 import {ip} from "../client/client"
 import { AsyncStorage } from 'react-native';
-import { Container, Header, Content, List, ListItem, Text, Left, Body, Right, Button, Icon, Title, Input, Card, CardItem } from 'native-base';
+import { Container, Header, Content, List, ListItem, Text, Left, Body, Right, Button, Icon, Title, Input } from 'native-base';
 
 
 export default class Group extends Component {
@@ -98,15 +98,6 @@ export default class Group extends Component {
             </Button>
           </Right>
         </Header>
-        <Card>
-         <CardItem>
-              <Text>
-                                NativeBase is a free and open source framework that enables
-                                developers to build high-quality mobile apps using React Native
-                                iOS and Android apps with a fusion of ES6.
-              </Text>
-           </CardItem>
-         </Card>
         <Content>
             <Input 
             name
