@@ -75,7 +75,7 @@ export default class Home extends Component {
           <Right>
             <Button transparent>
             {/* navigation.navigate("Group") */}
-              <Icon name='add' onPress={() => this.ShowModalFunction() }/>
+              <Icon name='add' onPress={() => navigation.navigate("Group")}/>
             </Button>
           </Right>
         </Header>
@@ -90,8 +90,8 @@ export default class Home extends Component {
             ))}
           </List>
         </Content>
-        <Modal
-        transparent={true}
+       {/*  <Modal
+        transparent={false}
         animationType={"slide"}
         visible={this.state.modalVisibility}
         onRequestClose={() => { this.ShowModalFunction(!this.state.modalVisibility) }} >
@@ -115,7 +115,7 @@ export default class Home extends Component {
                 </Button>
                 </View>
             </View>
-        </Modal>
+        </Modal> */}
       </Container>
       
     );

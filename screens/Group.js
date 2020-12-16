@@ -1,7 +1,7 @@
 import React, { Component} from "react";
 import {ip} from "../client/client"
 import { AsyncStorage } from 'react-native';
-import { Container, Header, Content, List, ListItem, Text, Left, Body, Right, Button, Icon, Title, Input } from 'native-base';
+import { Container, Header, Content, List, ListItem, Text, Left, Body, Right, Button, Icon, Title, Input, Card, CardItem } from 'native-base';
 
 
 export default class Group extends Component {
@@ -21,6 +21,35 @@ export default class Group extends Component {
     AsyncStorage.setItem('id_group', JSON.stringify(id))
     const { navigation } = this.props;
     navigation.navigate("Chat");
+  }
+  async handleCreateGroup(){
+    const token = await AsyncStorage.getItem('token');
+    const id = await AsyncStorage.getItem('id');
+    const arrayToken= token.split('"', 2)
+    const auto= 'Bearer '+arrayToken[1];
+    
+ 
+    let configs = {
+      method: 'POST',
+      body: JSON.stringify(json),
+      withCredentials: true,
+      credentials: 'include',
+      headers: {
+          "Authorization": auto
+      }
+    }
+    fetch(ip+'/group/registrarGrupo ', configs)
+      .then(res => res.json())
+      .then(data => {//console.log(data)
+          if(data.status == 200){
+            const group = data.data;
+            console.log(group);
+          }else if (data.status == 401){
+            Alert.alert(data.response);
+          }else if (data.status == 500){
+            Alert.alert(data.response);
+          }
+    });
   }
   async handleRead(){
     const token = await AsyncStorage.getItem('token');
@@ -65,10 +94,19 @@ export default class Group extends Component {
           </Body>
           <Right>
             <Button transparent>
-              <Icon name='add' />
+              <Icon name='add' onPress={()=>this.list(item.id_group)}/>
             </Button>
           </Right>
         </Header>
+        <Card>
+         <CardItem>
+              <Text>
+                                NativeBase is a free and open source framework that enables
+                                developers to build high-quality mobile apps using React Native
+                                iOS and Android apps with a fusion of ES6.
+              </Text>
+           </CardItem>
+         </Card>
         <Content>
             <Input 
             name
