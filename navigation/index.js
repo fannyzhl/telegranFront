@@ -12,7 +12,6 @@ import loginNumber from "../screens/loginNumber";
 import Chat from '../screens/Chat'
 import Home from '../screens/Home'
 import Group from '../screens/Group'
-
 import { theme } from "../constants";
 
 const screens = createStackNavigator(

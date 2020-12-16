@@ -109,7 +109,10 @@ export default class Home extends Component {
                     <Picker.Item label="Channel" value="key0" />
                     <Picker.Item label="Group" value="key1" />
                   </Picker>
-                    
+                  <Button gradient onPress={() => navigation.navigate("Group")}>
+                      <Text center semibold white>Next</Text>
+                      <Icon name='arrow-forward' />
+                </Button>
                 </View>
             </View>
         </Modal>
